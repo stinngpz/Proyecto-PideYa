@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('tiempo_promedio_min')->default(30);
             $table->decimal('costo_delivery_base',10,2)->default(0);
             $table->decimal('porcentaje_comision',5,2)->default(15.00);
-            $table->enum('estado_aprobacion', ['pendiente', 'aprobado', 'suspendido'])->default('pendiente');
+            $table->enum('estado_aprobacion', ['pendiente', 'aprobado', 'rechazado', 'suspendido'])->default('pendiente');
             $table->boolean('esta_activado')->default(true);
             $table->decimal('calificacion',3,2)->default(0);
             $table->index(['estado_aprobacion', 'esta_activado']);
