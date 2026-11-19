@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id('id_factura');
             $table->foreignId('id_pedido')->constrained('pedidos', 'id_pedido')->restrictOnDelete();
             $table->foreignId('id_cai')->constrained('cai', 'id_cai')->restrictOnDelete();
-            $table->char('correlativo', 16)->unique();
             $table->string('numero_cai', 40);
             $table->char('correlativo', 16);
             $table->char('rtn_cliente', 14)->nullable();
