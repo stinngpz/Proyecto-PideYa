@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('telefono', 20);
             $table->boolean('esta_activa')->default(true);
             $table->timestamps();
+            $table->unique(['id_sucursal', 'id_comercio'], 'sucursales_id_sucursal_id_comercio_unique');
         });
     }
 
