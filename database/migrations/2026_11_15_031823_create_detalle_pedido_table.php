@@ -22,13 +22,10 @@ return new class extends Migration
             $table->decimal('precio_normal', 10, 2);
             $table->decimal('precio_oferta', 10, 2)->nullable();
             $table->decimal('subtotal_linea', 10, 2);
+            $table->decimal('descuento_linea', 10, 2)->storedAs('cantidad * (precio_normal - coalesce(precio_oferta, precio_normal))');
             $table->string('notas_comercio', 255)->nullable();
             $table->timestamps();
-
-            // El detalle pertenece a este pedido de este comercio
             $table->foreign(['id_pedido', 'id_comercio'])->references(['id_pedido', 'id_comercio'])->on('pedidos')->cascadeOnDelete();
-
-            // El producto es de ese mismo comercio
             $table->foreign(['id_comercio_producto', 'id_comercio'])->references(['id_comercio_producto', 'id_comercio'])->on('comercio_productos')->restrictOnDelete();
         });
     }

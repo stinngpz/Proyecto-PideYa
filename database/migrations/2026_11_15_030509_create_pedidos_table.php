@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_pedido');
             $table->foreignId('id_cliente')->constrained('usuarios', 'id_usuario')->restrictOnDelete();
             $table->foreignId('id_comercio')->constrained('comercios', 'id_comercio')->restrictOnDelete();
-            $table->foreignId('id_sucursal')->constrained('sucursales', 'id_sucursal')->restrictOnDelete();
+            $table->unsignedBigInteger('id_sucursal');
             $table->foreignId('id_direccion')->nullable()->constrained('direcciones', 'id_direccion')->nullOnDelete();
             $table->foreignId('id_estado')->default(1)->constrained('estados_pedido', 'id_estado')->restrictOnDelete();
             $table->decimal('latitud_entrega', 10, 7);
@@ -37,9 +37,14 @@ return new class extends Migration
             $table->dateTime('fecha_entrega')->nullable();
             $table->timestamps();
             $table->unique(['id_pedido', 'id_comercio']);
+            $table->index(['id_sucursal', 'id_comercio']);
             $table->index(['id_cliente', 'id_estado']);
             $table->index(['id_comercio', 'id_estado']);
             $table->index('fecha_creacion');
+            $table->foreign(['id_sucursal', 'id_comercio'])
+                ->references(['id_sucursal', 'id_comercio'])
+                ->on('sucursales')
+                ->restrictOnDelete();
         });
     }
 

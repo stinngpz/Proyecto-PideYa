@@ -14,14 +14,29 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The table associated with the model.
+     */
+    protected $table = 'usuarios';
+
+    /**
+     * The primary key associated with the table.
+     */
+    protected $primaryKey = 'id_usuario';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'nombre',
+        'apellido',
+        'correo',
         'password',
+        'rol',
+        'telefono',
+        'rtn_para_sar',
+        'activo',
     ];
 
     /**
@@ -44,6 +59,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'activo' => 'boolean',
         ];
+    }
+
+    /**
+     * El correo vive en la columna `correo`, no en `email`.
+     */
+    public function getEmailForPasswordReset(): string
+    {
+        return $this->correo;
+    }
+
+    public function routeNotificationForMail(): string
+    {
+        return $this->correo;
     }
 }
