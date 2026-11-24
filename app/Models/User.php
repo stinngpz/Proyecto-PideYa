@@ -75,4 +75,19 @@ class User extends Authenticatable
     {
         return $this->correo;
     }
+
+    public function direcciones()
+    {
+        return $this->hasMany(Direccion::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function comercio()
+    {
+        return $this->hasOne(Comercio::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function repartidor()
+    {
+        return $this->hasOne(Repartidor::class, 'id_usuario', 'id_usuario');
+    }
 }

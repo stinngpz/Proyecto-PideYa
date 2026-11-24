@@ -2,64 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Direccion;
+use App\Http\Requests\DireccionRequest;
+use App\Models\Ciudad;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DireccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $ciudades = Ciudad::with('zonas')->where('activo', true)->orderBy('nombre')->get();
+
+        return view('cliente.direcciones', ['ciudades' => $ciudades]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function lista(Request $request)
     {
-        //
+        $direcciones = $request->user()
+            ->direcciones()
+            ->with('zona.ciudad')
+            ->orderByDesc('es_predeterminada')
+            ->orderByDesc('id_direccion')
+            ->get();
+
+        return response()->json($direcciones);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(DireccionRequest $request)
     {
-        //
+        $usuario = $request->user();
+        $datos = $request->validated();
+        $datos['es_predeterminada'] = !$usuario->direcciones()->exists()
+            || $request->boolean('es_predeterminada');
+
+        $direccion = DB::transaction(function () use ($usuario, $datos) {
+            if ($datos['es_predeterminada']) {
+                $usuario->direcciones()->update(['es_predeterminada' => false]);
+            }
+
+            return $usuario->direcciones()->create($datos);
+        });
+
+        return response()->json($direccion->load('zona.ciudad'), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Direccion $direccion)
+    public function predeterminar(Request $request, int $id)
     {
-        //
+        $usuario = $request->user();
+        $direccion = $usuario->direcciones()->findOrFail($id);
+
+        DB::transaction(function () use ($usuario, $direccion) {
+            $usuario->direcciones()->update(['es_predeterminada' => false]);
+            $direccion->update(['es_predeterminada' => true]);
+        });
+
+        return response()->json(['ok' => true]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Direccion $direccion)
+    public function destroy(Request $request, int $id)
     {
-        //
-    }
+        $usuario = $request->user();
+        $direccion = $usuario->direcciones()->findOrFail($id);
+        $eraPredeterminada = $direccion->es_predeterminada;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Direccion $direccion)
-    {
-        //
-    }
+        try {
+            $direccion->delete();
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'No se puede eliminar: esta dirección está asociada a pedidos.',
+            ], 409);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Direccion $direccion)
-    {
-        //
+        if ($eraPredeterminada) {
+            $usuario->direcciones()->orderBy('id_direccion')->first()?->update(['es_predeterminada' => true]);
+        }
+
+        return response()->json(['ok' => true]);
     }
 }

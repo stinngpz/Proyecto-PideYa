@@ -106,7 +106,7 @@ class MenuHelper
             [
                 'title' => 'Mi local',
                 'items' => [
-                    ['icon' => 'map', 'name' => 'Sucursales', 'path' => '#'],
+                    ['icon' => 'maps', 'name' => 'Sucursales', 'path' => '/comercio/sucursales'],
                     ['icon' => 'calendar', 'name' => 'Horarios', 'path' => '#'],
                     ['icon' => 'pages', 'name' => 'Facturación (CAI)', 'path' => '#'],
                 ],
@@ -129,7 +129,7 @@ class MenuHelper
                             ['name' => 'Asignaciones', 'path' => '#'],
                         ],
                     ],
-                    ['icon' => 'user-profile', 'name' => 'Usuarios', 'path' => '#'],
+                    ['icon' => 'user-profile', 'name' => 'Usuarios', 'path' => '/admin/usuarios'],
                 ],
             ],
             [
@@ -139,8 +139,8 @@ class MenuHelper
                         'icon' => 'forms',
                         'name' => 'Aprobaciones',
                         'subItems' => [
-                            ['name' => 'Comercios', 'path' => '#'],
-                            ['name' => 'Repartidores', 'path' => '#'],
+                            ['name' => 'Comercios', 'path' => '/admin/comercios'],
+                            ['name' => 'Repartidores', 'path' => '/admin/repartidores'],
                         ],
                     ],
                     [
@@ -153,7 +153,7 @@ class MenuHelper
                         ],
                     ],
                     [
-                        'icon' => 'map',
+                        'icon' => 'maps',
                         'name' => 'Configuración',
                         'subItems' => [
                             ['name' => 'Ciudades y zonas', 'path' => '#'],
@@ -188,8 +188,8 @@ class MenuHelper
                 'title' => 'Mi cuenta',
                 'items' => [
                     ['icon' => 'charts', 'name' => 'Mis metas', 'path' => '#'],
-                    ['icon' => 'map', 'name' => 'Mi vehículo', 'path' => '#'],
-                    ['icon' => 'user-profile', 'name' => 'Mi perfil', 'path' => '#'],
+                    ['icon' => 'maps', 'name' => 'Mi vehículo', 'path' => '/repartidor/vehiculo'],
+                    ['icon' => 'user-profile', 'name' => 'Mi perfil', 'path' => '/perfil'],
                 ],
             ],
         ];

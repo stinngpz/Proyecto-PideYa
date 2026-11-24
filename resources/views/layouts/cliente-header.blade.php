@@ -64,8 +64,8 @@
             @endauth
 
             @guest
-                <a href="#" class="text-sm font-semibold text-white">Iniciar sesión</a>
-                <a href="#" class="rounded-lg bg-[#459361] px-4 py-2 text-sm font-semibold text-white">Registrarse</a>
+                <a href="{{ route('login') }}" class="text-sm font-semibold text-white">Iniciar sesión</a>
+                <a href="{{ route('login') }}" class="rounded-lg bg-[#459361] px-4 py-2 text-sm font-semibold text-white">Registrarse</a>
             @endguest
         </div>
     </div>

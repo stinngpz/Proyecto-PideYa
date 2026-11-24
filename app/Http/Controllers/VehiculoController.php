@@ -2,64 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vehiculo;
+use App\Http\Requests\VehiculoRequest;
+use App\Models\Ciudad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VehiculoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private function repartidorDe(Request $request)
     {
-        //
+        return $request->user()->repartidor
+            ?? abort(403, 'Tu cuenta no tiene un perfil de repartidor.');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function editar(Request $request)
     {
-        //
+        $repartidor = $this->repartidorDe($request);
+
+        return view('repartidor.vehiculo', [
+            'repartidor' => $repartidor,
+            'vehiculo'   => $repartidor->vehiculos()->first(),
+            'ciudades'   => Ciudad::with('zonas')->where('activo', true)->orderBy('nombre')->get(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function actualizar(VehiculoRequest $request)
     {
-        //
-    }
+        $repartidor = $this->repartidorDe($request);
+        $datos = $request->validated();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Vehiculo $vehiculo)
-    {
-        //
-    }
+        DB::transaction(function () use ($repartidor, $datos) {
+            $repartidor->update(['id_zona' => $datos['id_zona']]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Vehiculo $vehiculo)
-    {
-        //
-    }
+            $repartidor->vehiculos()->updateOrCreate([], [
+                'placa'         => strtoupper($datos['placa']),
+                'marca'         => $datos['marca'] ?? null,
+                'modelo'        => $datos['modelo'] ?? null,
+                'tipo_vehiculo' => $datos['tipo_vehiculo'],
+            ]);
+        });
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Vehiculo $vehiculo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Vehiculo $vehiculo)
-    {
-        //
+        return back()->with('exito', 'Tus datos de reparto se guardaron correctamente.');
     }
 }
