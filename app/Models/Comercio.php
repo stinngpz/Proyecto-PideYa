@@ -39,4 +39,16 @@ class Comercio extends Model
     {
         return $this->hasMany(Sucursal::class, 'id_comercio', 'id_comercio');
     }
+
+    public function comisiones()
+    {
+        return $this->hasManyThrough(
+            Comision::class,
+            Pedido::class,
+            'id_comercio',
+            'id_pedido',
+            'id_comercio',
+            'id_pedido'
+        );
+    }
 }
