@@ -1,6 +1,6 @@
 @php
     use App\Helpers\MenuHelper;
-    $menuGroups = MenuHelper::getMenuGroups($rol ?? null);
+    $menuGroups = MenuHelper::getMenuGroups(auth()->user()?->rol ?? $rol ?? null);
 
     // Get current path
     $currentPath = request()->path();
@@ -57,7 +57,7 @@
     @mouseleave="$store.sidebar.setHovered(false)">
     <!-- Espacio superior (en celular muestra el logo) -->
     <div class="pt-8 pb-6 xl:pt-6 xl:pb-2">
-        <a href="/" class="text-2xl font-bold text-[#022c22] xl:hidden">PideYa</a>
+        <a href="{{ route('panel') }}" class="text-2xl font-bold text-[#022c22] xl:hidden">PideYa</a>
     </div>
 
     <!-- Navigation Menu -->

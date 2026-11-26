@@ -15,9 +15,9 @@
 
         <x-ui.dropdown-menu.separator />
 
-        <x-ui.dropdown-menu.item :to="route('perfil')">
+        <x-ui.dropdown-menu.item :to="route('cuenta')">
             <x-svg.user-circle class="size-6" />
-            {{ __('Editar Perfil') }}
+            {{ __('Mi cuenta') }}
         </x-ui.dropdown-menu.item>
 
         @if (auth()->user()->rol === 'cliente')
@@ -26,11 +26,6 @@
                 {{ __('Mis direcciones') }}
             </x-ui.dropdown-menu.item>
         @endif
-
-        <x-ui.dropdown-menu.item :to="route('cuenta')">
-            <x-svg.gear class="size-6" />
-            {{ __('Configuración de cuenta') }}
-        </x-ui.dropdown-menu.item>
 
         <x-ui.dropdown-menu.item :to="route('soporte')">
             <x-svg.info-circle class="size-6" />

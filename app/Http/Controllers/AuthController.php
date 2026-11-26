@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'telefono' => $datos['telefono'],
                 'password' => $datos['password'],
                 'rol'      => $datos['rol'],
-                'activo'   => $datos['rol'] === 'cliente',
+                'activo'   => $datos['rol'] !== 'comercio',
             ]);
 
             if ($datos['rol'] === 'comercio') {
@@ -67,7 +67,7 @@ class AuthController extends Controller
     {
         $usuario = User::where('correo', $request->correo)->first();
         if ($usuario && !$usuario->activo && Hash::check($request->password, $usuario->password)) {
-            return back()->withErrors(['correo' => 'Tu cuenta está pendiente de aprobación.'])
+            return back()->withErrors(['correo' => 'Tu cuenta no está activa. Si ya enviaste tu solicitud, espera la aprobación del administrador.'])
                          ->onlyInput('correo');
         }
 
@@ -103,6 +103,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect('/cliente');
     }
 }

@@ -30,6 +30,16 @@ document.querySelectorAll('[data-accion]').forEach(function (boton) {
                 nodo.textContent = texto;
             });
         });
+        const aviso = document.getElementById('aviso');
+
+        if (aviso && datos.mensaje) {
+        aviso.textContent = datos.mensaje;
+        aviso.classList.remove('hidden');
+        }
+
+        setTimeout(function () {
+        location.reload();
+        }, 1500);
     });
 });
 </script>

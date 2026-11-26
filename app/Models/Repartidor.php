@@ -9,9 +9,13 @@ class Repartidor extends Model
     protected $table = 'repartidores';
     protected $primaryKey = 'id_repartidor';
 
-    protected $fillable = [
+        protected $fillable = [
         'id_usuario',
         'id_zona',
+        'dni',
+        'fecha_nacimiento',
+        'foto_dni',
+        'foto_licencia',
         'estado',
         'latitud_actual',
         'longitud_actual',

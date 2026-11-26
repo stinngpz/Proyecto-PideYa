@@ -12,7 +12,7 @@
             class="flex w-full items-center justify-between gap-2 border-b border-white/10 px-3 py-2 sm:gap-4 xl:justify-normal xl:border-b-0 xl:px-0 xl:py-2 dark:border-gray-800">
 
             <!-- Logo (escritorio) -->
-            <a href="/" class="hidden shrink-0 text-2xl font-bold text-white xl:block xl:w-[226px]">PideYa</a>
+            <a href="{{ route('panel') }}" class="hidden shrink-0 text-2xl font-bold text-white xl:block xl:w-[226px]">PideYa</a>
 
             <!-- Mobile sidebar toggle (below xl) -->
             <x-ui.button variant="outline" size="icon" class="border-transparent bg-white/10 text-white shadow-none hover:bg-white/20 hover:text-white xl:hidden lg:size-11 dark:text-gray-400"
@@ -22,10 +22,10 @@
             </x-ui.button>
 
             <!-- Logo (celular) -->
-            <a href="/" class="text-2xl font-bold text-white xl:hidden">PideYa</a>
+            <a href="{{ route('panel') }}" class="text-2xl font-bold text-white xl:hidden">PideYa</a>
 
             <!-- Application menu toggle (mobile only) -->
-            <x-ui.button variant="ghost" size="icon" aria-label="Toggle application menu"
+            <x-ui.button variant="ghost" size="icon" aria-label="Abrir menú"
                 class="text-white xl:hidden dark:text-gray-400" @click="toggleApplicationMenu()">
                 <x-svg.horizontal-dots />
             </x-ui.button>
@@ -52,7 +52,7 @@
             class="w-full items-center justify-between gap-4 px-5 py-4 shadow-theme-md xl:flex xl:justify-end xl:px-0 xl:shadow-none">
             <div class="2xsm:gap-3 flex items-center gap-2">
                 <!-- Theme toggler -->
-                <x-ui.button variant="outline" size="icon-lg" class="relative border-transparent bg-white/10 text-white shadow-none hover:bg-white/20 hover:text-white" aria-label="Toggle theme" @click="$store.theme.toggle()">
+                <x-ui.button variant="outline" size="icon-lg" class="relative border-transparent bg-white/10 text-white shadow-none hover:bg-white/20 hover:text-white" aria-label="Cambiar tema" @click="$store.theme.toggle()">
                     <x-svg.sun x-show="$store.theme.resolvedTheme === 'dark'" />
                     <x-svg.moon x-show="$store.theme.resolvedTheme !== 'dark'" />
                 </x-ui.button>

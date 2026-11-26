@@ -1,4 +1,4 @@
-@extends('layouts.cliente')
+@extends(auth()->user()->rol == 'cliente' ? 'layouts.cliente' : 'layouts.panel')
 
 @section('titulo', 'PideYa - Soporte')
 

@@ -1435,3 +1435,8 @@ pre[class*='language-'].line-numbers {
   direction: rtl;
   text-align: right;
 }
+
+.dark select option {
+  background-color: #1f2937;
+  color: #ffffff;
+}

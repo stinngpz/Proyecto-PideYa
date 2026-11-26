@@ -15,15 +15,14 @@ class PerfilController extends Controller
 
     public function actualizar(PerfilRequest $request)
     {
-        $request->user()->update($request->validated());
+        $datos = $request->validated();
+        unset($datos['password_actual']);
+
+        $request->user()->update($datos);
 
         return back()->with('exito', 'Tus datos se actualizaron correctamente.');
     }
 
-    public function cuenta()
-    {
-        return view('cliente.cuenta');
-    }
 
     public function cambiarPassword(Request $request)
     {

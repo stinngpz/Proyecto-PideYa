@@ -1,40 +1,63 @@
-@extends('layouts.cliente')
+@extends(auth()->user()->rol == 'cliente' ? 'layouts.cliente' : 'layouts.panel')
 
-@section('titulo', 'PideYa - Configuración de cuenta')
+@section('titulo', 'PideYa - Mi cuenta')
 
 @section('contenido')
 <div class="mx-auto max-w-2xl space-y-8">
 
-    @if (session('exito'))
-        <div class="rounded-lg bg-green-50 p-3 text-sm text-green-800">{{ session('exito') }}</div>
+    <h1 class="text-center text-xl font-semibold text-gray-800 dark:text-white">¡Hola, {{ auth()->user()->nombre }}!</h1>
+
+    <div class="grid grid-cols-2 gap-4">
+        <a href="{{ route('perfil') }}" class="text-center">
+            <div class="flex h-20 items-center justify-center rounded-2xl bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300">
+                <x-svg.user-circle class="size-7" />
+            </div>
+            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Información personal</p>
+        </a>
+        <a href="{{ route('soporte') }}" class="text-center">
+            <div class="flex h-20 items-center justify-center rounded-2xl bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300">
+                <x-svg.info-circle class="size-7" />
+            </div>
+            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Soporte</p>
+        </a>
+    </div>
+
+    @if (auth()->user()->rol != 'admin')
+        <div>
+            <h2 class="mb-2 text-lg font-semibold text-gray-800 dark:text-white">Perfil</h2>
+
+            @if (auth()->user()->rol == 'cliente')
+                <a href="{{ route('direcciones.index') }}" class="flex items-center justify-between rounded-lg px-3 py-4 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
+                    <span>Direcciones</span>
+                    <span>›</span>
+                </a>
+            @endif
+
+            @if (auth()->user()->rol == 'repartidor')
+                <a href="{{ route('vehiculo') }}" class="flex items-center justify-between rounded-lg px-3 py-4 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
+                    <span>Mi vehículo y zona</span>
+                    <span>›</span>
+                </a>
+            @endif
+
+            @if (auth()->user()->rol == 'comercio')
+                <a href="{{ route('sucursales.index') }}" class="flex items-center justify-between rounded-lg px-3 py-4 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
+                    <span>Sucursales</span>
+                    <span>›</span>
+                </a>
+            @endif
+        </div>
     @endif
 
-    <form method="POST" action="{{ route('perfil.password') }}"
-          class="space-y-4 rounded-2xl bg-white p-6 shadow dark:bg-gray-800">
-        @csrf
-        @method('PUT')
-        <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Configuración de cuenta</h1>
-        <h2 class="text-sm font-medium text-gray-500">Cambiar contraseña</h2>
-
-        <div>
-            <label class="mb-1 block text-sm font-medium dark:text-gray-300">Contraseña actual</label>
-            <input type="password" name="password_actual" required
-                   class="w-full rounded-lg border border-gray-300 px-3 py-2">
-            @error('password_actual') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-        </div>
-        <div>
-            <label class="mb-1 block text-sm font-medium dark:text-gray-300">Nueva contraseña</label>
-            <input type="password" name="password" required
-                   class="w-full rounded-lg border border-gray-300 px-3 py-2">
-            @error('password') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-        </div>
-        <div>
-            <label class="mb-1 block text-sm font-medium dark:text-gray-300">Confirmar nueva contraseña</label>
-            <input type="password" name="password_confirmation" required
-                   class="w-full rounded-lg border border-gray-300 px-3 py-2">
-        </div>
-
-        <button class="rounded-lg bg-[#022c22] px-5 py-2 font-semibold text-white">Actualizar contraseña</button>
-    </form>
+    <div>
+        <h2 class="mb-2 text-lg font-semibold text-gray-800 dark:text-white">Sesión</h2>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="flex w-full items-center justify-between rounded-lg px-3 py-4 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">
+                <span>Cerrar sesión</span>
+                <span>›</span>
+            </button>
+        </form>
+    </div>
 </div>
 @endsection

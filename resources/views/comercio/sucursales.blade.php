@@ -57,7 +57,7 @@
         <button type="submit" class="w-full rounded-lg bg-[#459361] py-2 font-semibold text-white">Guardar sucursal</button>
     </form>
 
-    <div class="space-y-4">
+    <div class="h-fit space-y-4 rounded-2xl bg-white p-6 shadow dark:bg-gray-800">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Mis sucursales</h2>
         <div id="lista" class="space-y-3"></div>
         <p id="vacio" class="hidden text-sm text-gray-500">Todavía no tienes sucursales registradas.</p>

@@ -95,7 +95,7 @@ class AdminController extends Controller
 
     public function repartidores(Request $request)
     {
-        $repartidores = Repartidor::with(['usuario', 'zona'])
+        $repartidores = Repartidor::with(['usuario', 'zona', 'vehiculos'])
             ->when($request->filled('estado'), fn ($q) => $q->where('estado_aprobacion', $request->estado))
             ->orderByRaw("estado_aprobacion = 'pendiente' desc")
             ->orderByDesc('id_repartidor')
@@ -108,7 +108,7 @@ class AdminController extends Controller
     public function estadoRepartidor(Request $request, int $id)
     {
         $request->validate([
-            'estado' => ['required', Rule::in(['aprobado', 'rechazado'])],
+            'estado' => ['required', Rule::in(['aprobado', 'rechazado', 'suspendido'])],
         ]);
 
         $repartidor = Repartidor::with('usuario')->findOrFail($id);
@@ -119,7 +119,8 @@ class AdminController extends Controller
             $repartidor->usuario->update(['activo' => $aprobado]);
         });
 
-        return response()->json(['campos' => [
+        return response()->json(['mensaje' => 'Repartidor ' . $request->estado,
+            'campos' => [
             'estado' => ucfirst($request->estado),
             'cuenta' => $aprobado ? 'Activa' : 'Inactiva',
         ]]);

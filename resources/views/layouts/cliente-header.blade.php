@@ -15,7 +15,7 @@
             <a href="/cliente" class="text-2xl font-bold text-white">PideYa</a>
 
             <!-- Application menu toggle (mobile only) -->
-            <x-ui.button variant="ghost" size="icon" aria-label="Toggle application menu"
+            <x-ui.button variant="ghost" size="icon" aria-label="Abrir menú"
                 class="text-white xl:hidden dark:text-gray-400" @click="toggleApplicationMenu()">
                 <x-svg.horizontal-dots />
             </x-ui.button>
@@ -42,7 +42,7 @@
             class="w-full items-center justify-between gap-4 px-5 py-4 shadow-theme-md xl:flex xl:justify-end xl:px-0 xl:shadow-none">
             <div class="2xsm:gap-3 flex items-center gap-2">
                 <!-- Theme toggler -->
-                <x-ui.button variant="outline" size="icon-lg" class="relative border-transparent bg-white/10 text-white shadow-none hover:bg-white/20 hover:text-white" aria-label="Toggle theme" @click="$store.theme.toggle()">
+                <x-ui.button variant="outline" size="icon-lg" class="relative border-transparent bg-white/10 text-white shadow-none hover:bg-white/20 hover:text-white" aria-label="Cambiar tema" @click="$store.theme.toggle()">
                     <x-svg.sun x-show="$store.theme.resolvedTheme === 'dark'" />
                     <x-svg.moon x-show="$store.theme.resolvedTheme !== 'dark'" />
                 </x-ui.button>
