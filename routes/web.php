@@ -7,6 +7,14 @@ use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\DetallePedidoController;
+use App\Http\Controllers\DetallePedidoOpcionController;
+use App\Http\Controllers\ComercioController;
+use App\Http\Controllers\ComercioProductoController;
+use App\Http\Controllers\CiudadController;
+use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\CategoriaController;
 
 Route::get('/', fn () => redirect('/cliente'));
 
@@ -73,4 +81,83 @@ Route::middleware(['auth', 'rol:repartidor'])->group(function () {
 
     Route::get('/repartidor/vehiculo', [VehiculoController::class, 'editar'])->name('vehiculo');
     Route::put('/repartidor/vehiculo', [VehiculoController::class, 'actualizar'])->name('vehiculo.actualizar');
+});
+
+Route::prefix('pedidos')->name('pedidos.')->group(function () {
+    Route::get('/', [PedidoController::class, 'index'])->name('index');
+    Route::get('/crear', [PedidoController::class, 'create'])->name('create');
+    Route::post('/', [PedidoController::class, 'store'])->name('store');
+    Route::get('/{pedido}', [PedidoController::class, 'show'])->name('show');
+    Route::get('/{pedido}/editar', [PedidoController::class, 'edit'])->name('edit');
+    Route::put('/{pedido}', [PedidoController::class, 'update'])->name('update');
+    Route::delete('/{pedido}', [PedidoController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('detalle-pedido')->name('detalle-pedido.')->group(function () {
+    Route::get('/', [DetallePedidoController::class, 'index'])->name('index');
+    Route::get('/crear', [DetallePedidoController::class, 'create'])->name('create');
+    Route::post('/', [DetallePedidoController::class, 'store'])->name('store');
+    Route::get('/{detallePedido}', [DetallePedidoController::class, 'show'])->name('show');
+    Route::get('/{detallePedido}/editar', [DetallePedidoController::class, 'edit'])->name('edit');
+    Route::put('/{detallePedido}', [DetallePedidoController::class, 'update'])->name('update');
+    Route::delete('/{detallePedido}', [DetallePedidoController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('detalle-pedido-opciones')->name('detalle-pedido-opciones.')->group(function () {
+    Route::get('/', [DetallePedidoOpcionController::class, 'index'])->name('index');
+    Route::get('/crear', [DetallePedidoOpcionController::class, 'create'])->name('create');
+    Route::post('/', [DetallePedidoOpcionController::class, 'store'])->name('store');
+    Route::get('/{id_detalle}/{id_opcion}', [DetallePedidoOpcionController::class, 'show'])->name('show');
+    Route::get('/{id_detalle}/{id_opcion}/editar', [DetallePedidoOpcionController::class, 'edit'])->name('edit');
+    Route::put('/{id_detalle}/{id_opcion}', [DetallePedidoOpcionController::class, 'update'])->name('update');
+    Route::delete('/{id_detalle}/{id_opcion}', [DetallePedidoOpcionController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('gestion-comercios')->name('comercios.')->group(function () {
+    Route::get('/', [ComercioController::class, 'index'])->name('index');
+    Route::get('/crear', [ComercioController::class, 'create'])->name('create');
+    Route::post('/', [ComercioController::class, 'store'])->name('store');
+    Route::get('/{comercio}', [ComercioController::class, 'show'])->name('show');
+    Route::get('/{comercio}/editar', [ComercioController::class, 'edit'])->name('edit');
+    Route::put('/{comercio}', [ComercioController::class, 'update'])->name('update');
+    Route::delete('/{comercio}', [ComercioController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('comercio-productos')->name('comercio-productos.')->group(function () {
+    Route::get('/', [ComercioProductoController::class, 'index'])->name('index');
+    Route::get('/crear', [ComercioProductoController::class, 'create'])->name('create');
+    Route::post('/', [ComercioProductoController::class, 'store'])->name('store');
+    Route::get('/{comercioProducto}', [ComercioProductoController::class, 'show'])->name('show');
+    Route::get('/{comercioProducto}/editar', [ComercioProductoController::class, 'edit'])->name('edit');
+    Route::put('/{comercioProducto}', [ComercioProductoController::class, 'update'])->name('update');
+    Route::delete('/{comercioProducto}', [ComercioProductoController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('ciudades')->name('ciudades.')->group(function () {
+    Route::get('/', [CiudadController::class, 'index'])->name('index');
+    Route::get('/crear', [CiudadController::class, 'create'])->name('create');
+    Route::post('/', [CiudadController::class, 'store'])->name('store');
+    Route::get('/{ciudad}', [CiudadController::class, 'show'])->name('show');
+    Route::get('/{ciudad}/editar', [CiudadController::class, 'edit'])->name('edit');
+    Route::put('/{ciudad}', [CiudadController::class, 'update'])->name('update');
+    Route::delete('/{ciudad}', [CiudadController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('departamentos')->name('departamentos.')->group(function () {
+    Route::get('/', [DepartamentoController::class, 'index'])->name('index');
+    Route::get('/crear', [DepartamentoController::class, 'create'])->name('create');
+    Route::post('/', [DepartamentoController::class, 'store'])->name('store');
+    Route::get('/{departamento}', [DepartamentoController::class, 'show'])->name('show');
+    Route::get('/{departamento}/editar', [DepartamentoController::class, 'edit'])->name('edit');
+    Route::put('/{departamento}', [DepartamentoController::class, 'update'])->name('update');
+    Route::delete('/{departamento}', [DepartamentoController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('categorias')->name('categorias.')->group(function () {
+    Route::get('/', [CategoriaController::class, 'index'])->name('index');
+    Route::get('/crear', [CategoriaController::class, 'create'])->name('create');
+    Route::post('/', [CategoriaController::class, 'store'])->name('store');
+    Route::get('/{categoria}/editar', [CategoriaController::class, 'edit'])->name('edit');
+    Route::put('/{categoria}', [CategoriaController::class, 'update'])->name('update');
+    Route::delete('/{categoria}', [CategoriaController::class, 'destroy'])->name('destroy');
 });
